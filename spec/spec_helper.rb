@@ -5,4 +5,4 @@ require 'byebug'
 
 ROOT = Dir.pwd
 
-require "#{ROOT}/lib/kira-client"
+require "#{ROOT}/lib/kira"

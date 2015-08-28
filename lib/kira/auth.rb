@@ -1,4 +1,4 @@
-module KiraClient
+module Kira
   class Auth
 
     BASE_URL = 'https://app.kiratalent.com/api'

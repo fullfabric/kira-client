@@ -1,3 +1,3 @@
-module KiraClient
+module Kira
   class Error < RuntimeError; end
 end

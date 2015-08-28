@@ -1,4 +1,4 @@
-class KiraClient::Applicant
+class Kira::Applicant
 
   BASE_URL = 'https://app.kiratalent.com/api'
 
@@ -19,7 +19,7 @@ class KiraClient::Applicant
     end
 
     response = JSON.parse(res.body)
-    raise KiraClient::Error if response['failed'].size > 0
+    raise Kira::Error if response['failed'].size > 0
 
     response['added'][0]['interview_url']
 
