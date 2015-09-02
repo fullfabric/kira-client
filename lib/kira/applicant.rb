@@ -19,21 +19,44 @@ class Kira::Applicant
     end
 
     response = JSON.parse(res.body)
-    raise Kira::Error if response['failed'].size > 0
+
+    handle_error(response)
 
     response['added'][0]['interview_url']
 
   end
 
   def find_by_email(email)
+
     url = "/api/v1/interview/#{@interview_id}/applicant_status/#{email}/"
-    JSON.parse conn.get(url, { token: @token }).body
+    body = conn.get(url, { token: @token }).body
+
+    # http://api.rubyonrails.org/classes/String.html
+    /\A[[:space:]]*\z/ === body ? false : JSON.parse(body)
+
   end
 
   private
 
     def conn
       @conn ||= Faraday.new(BASE_URL)
+    end
+
+    def handle_error(response)
+
+      if response['failed'].size > 0
+
+        error = response['failed'][0]
+
+        case error['error']
+        when 'EXIST'
+          raise Kira::ApplicantError::Exists
+        else
+          raise Kira::Error
+        end
+
+      end
+
     end
 
 

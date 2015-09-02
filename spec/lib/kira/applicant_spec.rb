@@ -11,13 +11,25 @@ describe Kira::Applicant do
 
     let!( :service ) { Kira::Applicant.new(interview_id, token) }
 
-    it 'finds applicant by email' do
+    context 'find an applicant' do
 
-      response = service.find_by_email('peter.pan@arealdomain.com')
+      it 'by email' do
 
-      expected_keys = [ 'completed_interview', 'embeddable_responses', 'id', 'interview_url', 'number_of_practice_attempts', 'number_of_responses', 'review_url' ].to_set
+        response = service.find_by_email('peter.pan@arealdomain.com')
 
-      expect( response.keys.to_set ).to eq expected_keys
+        expected_keys = [ 'completed_interview', 'embeddable_responses', 'id', 'interview_url', 'number_of_practice_attempts', 'number_of_responses', 'review_url' ].to_set
+
+        expect( response.keys.to_set ).to eq expected_keys
+
+      end
+
+      context 'applicant does not exist' do
+
+        it 'returns false' do
+          expect(service.find_by_email('idonotexist@example.com')).to be false
+        end
+
+      end
 
     end
 
@@ -34,6 +46,24 @@ describe Kira::Applicant do
         url = service.create(applicant)
 
         expect( url =~ /\A#{URI::regexp(['https'])}\z/ ).to eq 0
+
+      end
+
+      context 'existing interview' do
+
+        it 'returns an exception' do
+
+          applicant = {
+            first_name: "Peter",
+            last_name: "Pan",
+            email: "peter.pan#{Faker::Number.number(8)}@gmail.com"
+          }
+
+          url = service.create(applicant) # first time works
+
+          expect{ service.create(applicant) }.to raise_error Kira::ApplicantError::Exists
+
+        end
 
       end
 
