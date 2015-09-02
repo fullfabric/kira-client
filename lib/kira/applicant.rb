@@ -1,12 +1,15 @@
 class Kira::Applicant
 
+  include Contracts
+
   BASE_URL = 'https://app.kiratalent.com/api'
 
+  Contract ID, Token => Object
   def initialize interview_id, token
     @interview_id, @token = interview_id, token
-    raise ArgumentError.new('token required') unless token
   end
 
+  Contract Hash => Hash
   def create(applicant)
 
     url = "#{BASE_URL}/v1/interview/#{@interview_id}/applicants/"
@@ -27,6 +30,7 @@ class Kira::Applicant
 
   end
 
+  Contract String => Or[Hash,Bool]
   def find_by_email(email)
 
     url = "/api/v1/interview/#{@interview_id}/applicant_status/#{email}/"

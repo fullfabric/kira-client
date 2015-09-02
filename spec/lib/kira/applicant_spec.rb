@@ -11,9 +11,21 @@ describe Kira::Applicant do
 
     let!( :service ) { Kira::Applicant.new(interview_id, token) }
 
-    it 'requires a token' do
-      expect{ Kira::Applicant.new(interview_id, nil) }.to raise_error(ArgumentError)
-      expect{ Kira::Applicant.new(interview_id, false) }.to raise_error(ArgumentError)
+    context 'invalid params' do
+
+      it 'requires a a valid interview id' do
+        expect{ Kira::Applicant.new(nil, nil) }.to raise_error(ParamContractError)
+        expect{ Kira::Applicant.new(false, false) }.to raise_error(ParamContractError)
+        expect{ Kira::Applicant.new("", "") }.to raise_error(ParamContractError)
+      end
+
+
+      it 'requires a valid token' do
+        expect{ Kira::Applicant.new(interview_id, nil) }.to raise_error(ParamContractError)
+        expect{ Kira::Applicant.new(interview_id, false) }.to raise_error(ParamContractError)
+        expect{ Kira::Applicant.new(interview_id, "") }.to raise_error(ParamContractError)
+      end
+
     end
 
     context 'find an applicant' do
