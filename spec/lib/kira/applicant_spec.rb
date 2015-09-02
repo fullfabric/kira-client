@@ -35,6 +35,25 @@ describe Kira::Applicant do
 
     context 'creating an applicant' do
 
+      context 'passing an external id' do
+
+        it 'returns external id' do
+
+          params = {
+            first_name: 'Peter',
+            last_name: 'Pan',
+            email: "peter.pan#{Faker::Number.number(8)}@gmail.com",
+            external_id: '55e6abc4cc23c4351e0001d2'
+          }
+
+        applicant = service.create(params)
+
+        expect( applicant['external_id'] ).to eq '55e6abc4cc23c4351e0001d2'
+
+        end
+
+      end
+
       it 'returns an applicant' do
 
         applicant = {
