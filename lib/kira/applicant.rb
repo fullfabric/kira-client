@@ -4,6 +4,7 @@ class Kira::Applicant
 
   def initialize interview_id, token
     @interview_id, @token = interview_id, token
+    raise ArgumentError.new('token required') unless token
   end
 
   def create(applicant)
