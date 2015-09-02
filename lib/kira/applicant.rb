@@ -22,7 +22,7 @@ class Kira::Applicant
 
     handle_error(response)
 
-    response['added'][0]['interview_url']
+    response['added'][0]
 
   end
 

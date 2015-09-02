@@ -35,7 +35,7 @@ describe Kira::Applicant do
 
     context 'creating an applicant' do
 
-      it 'returns an interview url' do
+      it 'returns an applicant' do
 
         applicant = {
           first_name: "Peter",
@@ -43,7 +43,23 @@ describe Kira::Applicant do
           email: "peter.pan#{Faker::Number.number(8)}@gmail.com"
         }
 
-        url = service.create(applicant)
+        applicant = service.create(applicant)
+
+        expect( applicant.keys ).to eq [ 'email', 'external_id', 'interview_url' ]
+
+
+      end
+
+      it 'returns a valid interview url' do
+
+        applicant = {
+          first_name: "Peter",
+          last_name: "Pan",
+          email: "peter.pan#{Faker::Number.number(8)}@gmail.com"
+        }
+
+        applicant = service.create(applicant)
+        url = applicant['interview_url']
 
         expect( url =~ /\A#{URI::regexp(['https'])}\z/ ).to eq 0
 
