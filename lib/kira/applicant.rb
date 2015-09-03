@@ -57,7 +57,7 @@ class Kira::Applicant
         when 'EXIST'
           raise Kira::ApplicantError::Exists
         else
-          raise Kira::Error
+          raise Kira::Error.new(error)
         end
 
       end
