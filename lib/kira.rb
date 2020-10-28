@@ -3,9 +3,12 @@ require 'kira/contracts/custom'
 require 'faraday'
 require 'json'
 
+module Kira
+  module V2
+  end
+end
+
 require 'kira/errors'
 require 'kira/auth'
 require 'kira/applicant'
-
-module Kira
-end
+require 'kira/v2/applicant'

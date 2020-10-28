@@ -59,7 +59,7 @@ describe Kira::Applicant do
           params = {
             first_name: 'Peter',
             last_name: 'Pan',
-            email: "peter.pan#{Faker::Number.number(8)}@gmail.com",
+            email: "peter.pan#{Faker::Number.number(digits: 8)}@gmail.com",
             external_id: '55e6abc4cc23c4351e0001d2'
           }
 
@@ -76,7 +76,7 @@ describe Kira::Applicant do
         applicant = {
           first_name: "Peter",
           last_name: "Pan",
-          email: "peter.pan#{Faker::Number.number(8)}@gmail.com"
+          email: "peter.pan#{Faker::Number.number(digits: 8)}@gmail.com"
         }
 
         applicant = service.create(applicant)
@@ -91,7 +91,7 @@ describe Kira::Applicant do
         applicant = {
           first_name: "Peter",
           last_name: "Pan",
-          email: "peter.pan#{Faker::Number.number(8)}@gmail.com"
+          email: "peter.pan#{Faker::Number.number(digits: 8)}@gmail.com"
         }
 
         applicant = service.create(applicant)
@@ -108,7 +108,7 @@ describe Kira::Applicant do
           applicant = {
             first_name: "Peter",
             last_name: "Pan",
-            email: "peter.pan#{Faker::Number.number(8)}@gmail.com"
+            email: "peter.pan#{Faker::Number.number(digits: 8)}@gmail.com"
           }
 
           url = service.create(applicant) # first time works
@@ -124,9 +124,9 @@ describe Kira::Applicant do
         it 'raises an exception' do
 
           applicant = {
-            first_name: "Peter #{Faker::Number.number(10)}",
-            last_name: "Pan #{Faker::Number.number(10)}",
-            email: "peter.pan#{Faker::Number.number(5)}@example.com"
+            first_name: "Peter #{Faker::Number.number(digits: 10)}",
+            last_name: "Pan #{Faker::Number.number(digits: 10)}",
+            email: "peter.pan#{Faker::Number.number(digits: 5)}@example.com"
           }
 
           expect{ service.create(applicant) }.to raise_error(Kira::Error)

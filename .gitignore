@@ -15,3 +15,5 @@
 
 vendor/gems/
 vendor/bundle/
+
+Gemfile.lock
