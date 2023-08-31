@@ -8,7 +8,7 @@ class Kira::V2::Interview
     @interview_id, @token, @secret = interview_id, token, secret
   end
 
-  Contract None => Boolean
+  Contract None => Bool
   def create_webhook
     url = "#{BASE_URL}/interviews/#{@interview_id}/webhooks/"
 
