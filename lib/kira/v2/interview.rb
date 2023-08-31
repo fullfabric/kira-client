@@ -8,7 +8,7 @@ class Kira::V2::Interview
     @interview_id, @token, @secret = interview_id, token, secret
   end
 
-  Contract Hash => Hash
+  Contract None => Boolean
   def create_webhook
     url = "#{BASE_URL}/interviews/#{@interview_id}/webhooks/"
 
@@ -24,7 +24,7 @@ class Kira::V2::Interview
     handle_error(response) unless res.success?
 
     # return if a webhook already exists
-    return if response.any? { |webhook| webhook['event_subscriptions'].include?('applicant.interview_completed') }
+    return true if response.any? { |webhook| webhook['event_subscriptions'].include?('applicant.interview_completed') }
 
     # create a webhook otherwise
     request_body = {
@@ -45,7 +45,7 @@ class Kira::V2::Interview
     end
 
     response = JSON.parse(res.body)
-    res.success? ? response : handle_error(response)
+    res.success? ? true : handle_error(response)
   end
 
   private
