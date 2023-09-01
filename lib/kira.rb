@@ -9,7 +9,5 @@ module Kira
 end
 
 require 'kira/errors'
-require 'kira/auth'
-require 'kira/applicant'
 require 'kira/v2/applicant'
 require 'kira/v2/interview'

@@ -8,8 +8,8 @@ class Kira::V2::Interview
     @interview_id, @token, @secret = interview_id, token, secret
   end
 
-  Contract None => Bool
-  def create_webhook
+  Contract Hash => Or[Hash,Bool]
+  def create(endpoint:, event_subscriptions:, active: true)
     url = "#{BASE_URL}/interviews/#{@interview_id}/webhooks/"
 
     # check first if a webhook for this interview already exists
@@ -28,11 +28,9 @@ class Kira::V2::Interview
 
     # create a webhook otherwise
     request_body = {
-      "endpoint": "#{::Core::Utils::Host.build.to_s}/api/applics/kira/callback",
-      "active": true,
-      "event_subscriptions": [
-        "applicant.interview_completed"
-      ],
+      "endpoint": endpoint,
+      "event_subscriptions": event_subscriptions,
+      "active": active,
       "secret": @secret
     }
 
@@ -45,7 +43,7 @@ class Kira::V2::Interview
     end
 
     response = JSON.parse(res.body)
-    res.success? ? true : handle_error(response)
+    res.success? ? response : handle_error(response)
   end
 
   private

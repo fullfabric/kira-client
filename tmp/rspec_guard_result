@@ -1,0 +1,2 @@
+1 examples, 1 failures in 137.5283 seconds
+./spec/lib/kira/auth_spec.rb:7
