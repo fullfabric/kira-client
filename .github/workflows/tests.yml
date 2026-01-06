@@ -1,0 +1,34 @@
+name: RSpec tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    env:
+      RAILS_ENV: test
+
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
+
+    strategy:
+      matrix:
+        ruby-version: [2.7.7]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Ruby ${{ matrix.ruby-version }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+
+      - name: Run tests
+        run: bundle exec rspec
+
+      - name: Output status
+        id: set-status
+        run: echo "status=${{ job.status }}" >> $GITHUB_OUTPUT
