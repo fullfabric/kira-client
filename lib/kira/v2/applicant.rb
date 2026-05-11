@@ -1,14 +1,10 @@
 class Kira::V2::Applicant
-  include Contracts
-
   BASE_URL = 'https://app.kiratalent.com/api'
 
-  Contract String, String => Object
   def initialize(interview_id, token)
     @interview_id, @token = interview_id, token
   end
 
-  Contract Hash => Hash
   def create(applicant)
 
     url = "#{BASE_URL}/interviews/#{@interview_id}/applicants/"

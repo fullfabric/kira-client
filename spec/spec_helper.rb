@@ -1,7 +1,5 @@
 require 'rubygems'
-require 'spork'
 require 'faker'
-require 'byebug'
 
 ROOT = Dir.pwd
 

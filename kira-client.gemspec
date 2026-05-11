@@ -10,17 +10,5 @@ Gem::Specification.new do |s|
   s.homepage    = "http://rubygems.org/gems/kira-client"
   s.license     = "MIT"
 
-  s.add_development_dependency "awesome_print"
-  s.add_development_dependency "better_errors"
-  s.add_development_dependency "binding_of_caller"
-  s.add_development_dependency "pry-byebug"
-
-  s.add_development_dependency "rspec", [ ">= 3" ]
-  s.add_development_dependency "guard-rspec", [ ">= 2.8" ]
-
-  s.add_development_dependency "spork"
-  s.add_development_dependency "guard-spork"
-  s.add_development_dependency "json_spec"
-  s.add_development_dependency "faker"
-
+  s.required_ruby_version = ">= 3.0"
 end

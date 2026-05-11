@@ -1,14 +1,10 @@
 class Kira::V2::Interview
-  include Contracts
-
   BASE_URL = 'https://app.kiratalent.com/api'
 
-  Contract String, String, String => Object
   def initialize(interview_id, token, secret)
     @interview_id, @token, @secret = interview_id, token, secret
   end
 
-  Contract Hash => Or[Hash,Bool]
   def create(endpoint:, event_subscriptions:, active: true)
     url = "#{BASE_URL}/interviews/#{@interview_id}/webhooks/"
 

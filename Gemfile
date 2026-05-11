@@ -2,5 +2,11 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'contracts'
-gem 'faraday', "~> 2.8.0" # Can't go further in ruby 2.7
+gem 'faraday', "~> 2.8.0"
+
+group :development, :test do
+  gem 'rspec', '>= 3'
+  gem 'guard-rspec', '>= 2.8'
+  gem 'json_spec'
+  gem 'faker'
+end
