@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'contracts'
 gem 'faraday', "~> 2.8.0"
 
 group :development, :test do
