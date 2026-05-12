@@ -1,5 +1,4 @@
 require 'contracts'
-require 'kira/contracts/custom'
 require 'faraday'
 require 'json'
 

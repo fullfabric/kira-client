@@ -3,7 +3,7 @@ class Kira::V2::Applicant
 
   BASE_URL = 'https://app.kiratalent.com/api'
 
-  Contract String, String => Object
+  Contract String, String => Any
   def initialize(interview_id, token)
     @interview_id, @token = interview_id, token
   end
