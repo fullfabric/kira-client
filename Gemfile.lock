@@ -2,6 +2,8 @@ PATH
   remote: .
   specs:
     kira-client (2.0.0)
+      contracts
+      faraday (~> 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -82,11 +84,9 @@ GEM
 
 PLATFORMS
   arm64-darwin-25
-  ruby
   x86_64-linux
 
 DEPENDENCIES
-  contracts
   faker
   faraday (~> 2.8.0)
   guard-rspec (>= 2.8)
