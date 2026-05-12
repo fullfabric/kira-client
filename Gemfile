@@ -11,4 +11,5 @@ group :development, :test do
   gem 'guard-rspec', '>= 2.8'
   gem 'json_spec'
   gem 'faker'
+  gem 'webmock'
 end
