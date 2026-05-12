@@ -21,7 +21,7 @@ module Kira
       end
 
       def request(method, path, body: nil)
-        res = conn.send(method) do |req|
+        res = conn.public_send(method) do |req|
           req.url "#{BASE_URL}#{path}"
           req.headers.update(auth_headers)
           req.body = body.to_json if body
