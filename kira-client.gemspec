@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name        = "kira-client"
-  s.version     = "2.0.0"
-  s.date        = "2020-10-27"
+  s.version     = "3.0.0"
+  s.date        = "2026-05-12"
   s.summary     = "Kira Client"
   s.description = "Client to interact with the Kira API"
   s.authors     = ["Luis Correa d'Almeida"]
   s.email       = "luis@fullfabric.com"
-  s.files       = ["lib/kira-client.rb"]
+  s.files       = Dir["lib/**/*.rb", "README.md", "CHANGELOG.md", "LICENSE*"]
   s.homepage    = "http://rubygems.org/gems/kira-client"
   s.license     = "MIT"
 
