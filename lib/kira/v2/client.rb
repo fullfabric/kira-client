@@ -2,14 +2,18 @@ module Kira
   module V2
     # Shared HTTP plumbing for the v2 API: Faraday connection, auth headers,
     # request dispatch, and response/error mapping. Mix in via `include Kira::V2::Client`
-    # and set `@token` in the host class's initializer.
+    # and set `@token` (and optionally `@base_url`) in the host class's initializer.
     module Client
       BASE_URL = 'https://app.kiratalent.com/api'.freeze
 
       private
 
+      def base_url
+        @base_url || BASE_URL
+      end
+
       def conn
-        @conn ||= Faraday.new(BASE_URL)
+        @conn ||= Faraday.new(base_url)
       end
 
       def auth_headers
@@ -22,7 +26,7 @@ module Kira
 
       def request(method, path, body: nil)
         res = conn.public_send(method) do |req|
-          req.url "#{BASE_URL}#{path}"
+          req.url "#{base_url}#{path}"
           req.headers.update(auth_headers)
           req.body = body.to_json if body
         end

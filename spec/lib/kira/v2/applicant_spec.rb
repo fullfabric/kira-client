@@ -127,5 +127,22 @@ describe Kira::V2::Applicant do
         expect { service.create(applicant_params) }.to raise_error(Faraday::Error)
       end
     end
+
+    context "with a custom base_url override" do
+      let(:custom_base_url) { "https://staging.example.com/api" }
+      let(:service) { Kira::V2::Applicant.new(interview_id, token, base_url: custom_base_url) }
+      let(:applicant_params) do
+        { first_name: "Peter", last_name: "Pan", email: "peter@example.com" }
+      end
+
+      it "routes the request to the custom host" do
+        stub = stub_request(:post, "#{custom_base_url}/interviews/#{interview_id}/applicants/")
+                 .to_return(status: 201, body: "{}", headers: { "Content-Type" => "application/json" })
+
+        service.create(applicant_params)
+
+        expect(stub).to have_been_requested
+      end
+    end
   end
 end

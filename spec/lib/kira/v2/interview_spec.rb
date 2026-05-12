@@ -97,5 +97,23 @@ describe Kira::V2::Interview do
         }.to raise_error(Faraday::Error)
       end
     end
+
+    context "with a custom base_url override" do
+      let(:custom_base_url) { "https://staging.example.com/api" }
+      let(:service) { Kira::V2::Interview.new(interview_id, token, secret, base_url: custom_base_url) }
+
+      it "routes the existing-webhook GET to the custom host" do
+        stub = stub_request(:get, "#{custom_base_url}/interviews/#{interview_id}/webhooks/")
+                 .to_return(status: 200, body: "[]", headers: { "Content-Type" => "application/json" })
+
+        # Stub the follow-up POST too so the example finishes cleanly.
+        stub_request(:post, "#{custom_base_url}/interviews/#{interview_id}/webhooks/")
+          .to_return(status: 201, body: "{}", headers: { "Content-Type" => "application/json" })
+
+        service.create(endpoint: endpoint, event_subscriptions: event_subscriptions)
+
+        expect(stub).to have_been_requested
+      end
+    end
   end
 end

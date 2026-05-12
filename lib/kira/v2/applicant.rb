@@ -2,9 +2,9 @@ class Kira::V2::Applicant
   include Contracts
   include Kira::V2::Client
 
-  Contract String, String => Any
-  def initialize(interview_id, token)
-    @interview_id, @token = interview_id, token
+  Contract String, String, KeywordArgs[base_url: Optional[String]] => Any
+  def initialize(interview_id, token, base_url: nil)
+    @interview_id, @token, @base_url = interview_id, token, base_url
   end
 
   Contract Hash => Hash
