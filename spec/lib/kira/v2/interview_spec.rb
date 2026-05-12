@@ -63,22 +63,27 @@ describe Kira::V2::Interview do
             vcr: { cassette_name: "interview/get_unauthorized" } do
       let(:token) { "definitely-not-a-real-token" }
 
-      it "raises Kira::Error" do
+      it "raises Kira::Error carrying the HTTP status" do
         expect {
           service.create(endpoint: endpoint, event_subscriptions: event_subscriptions)
-        }.to raise_error(Kira::Error)
+        }.to raise_error(Kira::Error) { |e|
+          expect(e.status).to eq(401)
+        }
       end
     end
 
-    # XXX: SQ2-1050 will wrap this in a Kira::Error carrying the HTTP status.
     # Cassette is hand-crafted (Kira won't return 5xx for us on demand) and
     # pinned with `record: :none` so it can't be accidentally re-recorded.
     context "when Kira returns a 5xx without a JSON body",
             vcr: { cassette_name: "interview/server_error_html", record: :none } do
-      it "leaks JSON::ParserError" do
+      it "raises Kira::Error carrying the HTTP status and raw body" do
         expect {
           service.create(endpoint: endpoint, event_subscriptions: event_subscriptions)
-        }.to raise_error(JSON::ParserError)
+        }.to raise_error(Kira::Error) { |e|
+          expect(e.status).to eq(500)
+          expect(e.body).to include("Internal Server Error")
+          expect(e.parsed).to be_nil
+        }
       end
     end
 

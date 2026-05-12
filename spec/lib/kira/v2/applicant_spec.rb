@@ -71,9 +71,13 @@ describe Kira::V2::Applicant do
         }
       end
 
-      it "raises Kira::Error when posting the same applicant twice" do
+      it "raises Kira::ApplicantError::Exists on the second create" do
         service.create(applicant_params)
-        expect { service.create(applicant_params) }.to raise_error(Kira::Error)
+
+        expect { service.create(applicant_params) }.to raise_error(Kira::ApplicantError::Exists) { |e|
+          expect(e.status).to eq(409)
+          expect(e.parsed["detail"]).to include("already been registered")
+        }
       end
     end
 
@@ -86,12 +90,14 @@ describe Kira::V2::Applicant do
         }
       end
 
-      it "raises Kira::Error" do
-        expect { service.create(applicant_params) }.to raise_error(Kira::Error)
+      it "raises Kira::Error with the HTTP status and parsed body" do
+        expect { service.create(applicant_params) }.to raise_error(Kira::Error) { |e|
+          expect(e.status).to eq(400)
+          expect(e.parsed).to be_a(Hash)
+        }
       end
     end
 
-    # XXX: SQ2-1050 will wrap this in a Kira::Error carrying the HTTP status.
     # Cassette is hand-crafted (Kira won't return 5xx for us on demand) and
     # pinned with `record: :none` so it can't be accidentally re-recorded.
     context "when Kira returns a 5xx without a JSON body",
@@ -100,8 +106,12 @@ describe Kira::V2::Applicant do
         { first_name: "Peter", last_name: "Pan", email: "peter@example.com" }
       end
 
-      it "leaks JSON::ParserError" do
-        expect { service.create(applicant_params) }.to raise_error(JSON::ParserError)
+      it "raises Kira::Error carrying the HTTP status and raw body" do
+        expect { service.create(applicant_params) }.to raise_error(Kira::Error) { |e|
+          expect(e.status).to eq(500)
+          expect(e.body).to include("Internal Server Error")
+          expect(e.parsed).to be_nil
+        }
       end
     end
 
