@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://app.kiratalent.com/api/interviews/fqvjnY/applicants/
+    body:
+      encoding: UTF-8
+      string: '{"first_name":"Peter","last_name":"Pan","email":"peter.pan+fixture-002@example.com"}'
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Authorization:
+      - Token <KIRA_TOKEN>
+      Accept:
+      - application/vnd.kiratalent.v2+json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 12 May 2026 12:48:09 GMT
+      Content-Type:
+      - application/vnd.kiratalent.v2+json; charset=utf-8
+      Content-Length:
+      - '454'
+      Connection:
+      - keep-alive
+      Server:
+      - 1.30.0
+      - nginx/1.30.0
+      Location:
+      - https://app.kiratalent.com/api/interviews/fqvjnY/applicants/J1IagS/
+      Vary:
+      - Accept, Accept-Language, Cookie, origin, Accept-Encoding
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Content-Language:
+      - en
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
+      X-Permitted-Cross-Domain-Policies:
+      - none
+    body:
+      encoding: ASCII-8BIT
+      string: '{"uid":"J1IagS","url":"https://app.kiratalent.com/api/interviews/fqvjnY/applicants/J1IagS/","first_name":"Peter","last_name":"Pan","full_name":"Peter
+        Pan","email":"peter.pan+fixture-002@example.com","external_id":"","interview":{"uid":"fqvjnY","url":"https://app.kiratalent.com/api/interviews/fqvjnY/","name":"APIv2
+        Test Assessment"},"date_responded":null,"deadline":null,"reviews_url":"https://app.kiratalent.com/api/interviews/fqvjnY/reviews/?applicant_uid=J1IagS","review_page_url":"https://app.kiratalent.com/review/J1IagS/","public_review_url":null,"results_page_url":"https://app.kiratalent.com/applicant/J1IagS/","check_in_page_url":"https://app.kiratalent.com/applicant/Zno0quVVnbLjRtpN9eA4DW/instructions/","rating":{"value":null,"label":"N/A","name":"not-reviewed"},"average_reviewer_score":null,"custom_fields":{},"embeddable_responses":[],"integrity_summary":null,"responses":[]}'
+  recorded_at: Tue, 12 May 2026 12:48:09 GMT
+recorded_with: VCR 6.4.0

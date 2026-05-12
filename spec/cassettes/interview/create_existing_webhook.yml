@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://app.kiratalent.com/api/interviews/fqvjnY/webhooks/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Authorization:
+      - Token <KIRA_TOKEN>
+      Accept:
+      - application/vnd.kiratalent.v2+json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 12 May 2026 12:48:12 GMT
+      Content-Type:
+      - application/vnd.kiratalent.v2+json; charset=utf-8
+      Content-Length:
+      - '170'
+      Connection:
+      - keep-alive
+      Server:
+      - 1.30.0
+      - nginx/1.30.0
+      Link:
+      - <https://app.kiratalent.com/api/interviews/fqvjnY/webhooks/?page=1>; rel="first",
+        <https://app.kiratalent.com/api/interviews/fqvjnY/webhooks/?page=1>; rel="last"
+      X-Total-Count:
+      - '1'
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Vary:
+      - Accept-Language, Cookie, origin
+      Content-Language:
+      - en
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
+      X-Permitted-Cross-Domain-Policies:
+      - none
+    body:
+      encoding: UTF-8
+      string: '[{"uid":"vbcoqt","active":true,"endpoint":"https://fullfabric.com/api/applics/kira/callback","custom_headers":[],"event_subscriptions":["applicant.interview_completed"]}]'
+  recorded_at: Tue, 12 May 2026 12:48:12 GMT
+recorded_with: VCR 6.4.0

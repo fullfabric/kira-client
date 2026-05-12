@@ -1,0 +1,58 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://app.kiratalent.com/api/interviews/fqvjnY/webhooks/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Authorization:
+      - Token definitely-not-a-real-token
+      Accept:
+      - application/vnd.kiratalent.v2+json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Tue, 12 May 2026 12:48:13 GMT
+      Content-Type:
+      - application/vnd.kiratalent.v2+json; charset=utf-8
+      Content-Length:
+      - '27'
+      Connection:
+      - keep-alive
+      Server:
+      - 1.30.0
+      - nginx/1.30.0
+      Www-Authenticate:
+      - Token
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Vary:
+      - Accept-Language, Cookie, origin
+      Content-Language:
+      - en
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
+    body:
+      encoding: UTF-8
+      string: '{"detail":"Invalid token."}'
+  recorded_at: Tue, 12 May 2026 12:48:13 GMT
+recorded_with: VCR 6.4.0
