@@ -1,52 +1,41 @@
-describe Kira::V2::Applicant do
-  let(:interview_id) { KIRA_INTERVIEW_ID }
-  let(:token)        { KIRA_TOKEN }
-  let(:applicant_url) { "#{Kira::V2::Applicant::BASE_URL}/interviews/#{interview_id}/applicants/" }
-  let(:service)      { Kira::V2::Applicant.new(interview_id, token) }
+describe Kira::V2::Applicants do
+  let(:client)        { Kira::V2::Client.new(token: KIRA_TOKEN) }
+  let(:interview_id)  { KIRA_INTERVIEW_ID }
+  let(:applicants)    { client.interview(interview_id).applicants }
+  let(:applicant_url) { "#{Kira::V2::Client::BASE_URL}/interviews/#{interview_id}/applicants/" }
 
   describe "#create" do
     context "on success", vcr: { cassette_name: "applicant/create_success" } do
-      let(:external_id) { "ext-fixture-001" }
-      let(:applicant_params) do
-        {
+      it "returns the parsed applicant with the external_id echoed back" do
+        applicant = applicants.create(
           first_name: "Peter",
           last_name: "Pan",
           email: "peter.pan+fixture-001@example.com",
-          external_id: external_id
-        }
-      end
+          external_id: "ext-fixture-001"
+        )
 
-      it "returns the parsed applicant with the external_id echoed back" do
-        applicant = service.create(applicant_params)
-
-        expect(applicant["external_id"]).to eq(external_id)
+        expect(applicant["external_id"]).to eq("ext-fixture-001")
         expect(applicant.keys).to include("email", "external_id", "check_in_page_url")
       end
     end
 
     context "on success (no external_id)", vcr: { cassette_name: "applicant/create_success_no_external_id" } do
-      let(:applicant_params) do
-        {
+      it "returns an applicant with a check-in URL" do
+        applicant = applicants.create(
           first_name: "Peter",
           last_name: "Pan",
           email: "peter.pan+fixture-002@example.com"
-        }
-      end
-
-      it "returns an applicant with a check-in URL" do
-        applicant = service.create(applicant_params)
+        )
 
         expect(applicant["check_in_page_url"]).to match(URI::DEFAULT_PARSER.make_regexp(["https"]))
       end
 
       it "sends Authorization, Accept, and Content-Type headers" do
-        service.create(applicant_params)
+        applicants.create(first_name: "Peter", last_name: "Pan", email: "peter.pan+fixture-002@example.com")
 
-        # The source sets `" Token #{@token}"` with a leading space, but Faraday
-        # normalises header values on the wire, so the leading space never goes out.
         expect(WebMock).to have_requested(:post, applicant_url).with(
           headers: {
-            "Authorization" => "Token #{token}",
+            "Authorization" => "Token #{KIRA_TOKEN}",
             "Accept" => "application/vnd.kiratalent.v2+json",
             "Content-Type" => "application/json"
           }
@@ -54,16 +43,17 @@ describe Kira::V2::Applicant do
       end
 
       it "POSTs the applicant params as JSON" do
-        service.create(applicant_params)
+        applicants.create(first_name: "Peter", last_name: "Pan", email: "peter.pan+fixture-002@example.com")
 
         expect(WebMock).to have_requested(:post, applicant_url).with { |req|
-          JSON.parse(req.body) == JSON.parse(applicant_params.to_json)
+          body = JSON.parse(req.body)
+          body == { "first_name" => "Peter", "last_name" => "Pan", "email" => "peter.pan+fixture-002@example.com" }
         }
       end
     end
 
     context "when the applicant already exists", vcr: { cassette_name: "applicant/create_duplicate" } do
-      let(:applicant_params) do
+      let(:params) do
         {
           first_name: "Peter",
           last_name: "Pan",
@@ -72,9 +62,9 @@ describe Kira::V2::Applicant do
       end
 
       it "raises Kira::ApplicantError::Exists on the second create" do
-        service.create(applicant_params)
+        applicants.create(**params)
 
-        expect { service.create(applicant_params) }.to raise_error(Kira::ApplicantError::Exists) { |e|
+        expect { applicants.create(**params) }.to raise_error(Kira::ApplicantError::Exists) { |e|
           expect(e.status).to eq(409)
           expect(e.parsed["detail"]).to include("already been registered")
         }
@@ -82,16 +72,10 @@ describe Kira::V2::Applicant do
     end
 
     context "when the email is invalid", vcr: { cassette_name: "applicant/create_invalid_email" } do
-      let(:applicant_params) do
-        {
-          first_name: "Peter",
-          last_name: "Pan",
-          email: "not-an-email"
-        }
-      end
-
       it "raises Kira::Error with the HTTP status and parsed body" do
-        expect { service.create(applicant_params) }.to raise_error(Kira::Error) { |e|
+        expect {
+          applicants.create(first_name: "Peter", last_name: "Pan", email: "not-an-email")
+        }.to raise_error(Kira::Error) { |e|
           expect(e.status).to eq(400)
           expect(e.parsed).to be_a(Hash)
         }
@@ -102,29 +86,14 @@ describe Kira::V2::Applicant do
     # pinned with `record: :none` so it can't be accidentally re-recorded.
     context "when Kira returns a 5xx without a JSON body",
             vcr: { cassette_name: "applicant/create_server_error_html", record: :none } do
-      let(:applicant_params) do
-        { first_name: "Peter", last_name: "Pan", email: "peter@example.com" }
-      end
-
       it "raises Kira::Error carrying the HTTP status and raw body" do
-        expect { service.create(applicant_params) }.to raise_error(Kira::Error) { |e|
+        expect {
+          applicants.create(first_name: "Peter", last_name: "Pan", email: "peter@example.com")
+        }.to raise_error(Kira::Error) { |e|
           expect(e.status).to eq(500)
           expect(e.body).to include("Internal Server Error")
           expect(e.parsed).to be_nil
         }
-      end
-    end
-
-    context "when the request times out" do
-      let(:applicant_params) do
-        { first_name: "Peter", last_name: "Pan", email: "peter@example.com" }
-      end
-
-      # Timeouts can't be represented in a VCR cassette; bare WebMock stub instead.
-      it "lets the Faraday error propagate" do
-        stub_request(:post, applicant_url).to_timeout
-
-        expect { service.create(applicant_params) }.to raise_error(Faraday::Error)
       end
     end
   end

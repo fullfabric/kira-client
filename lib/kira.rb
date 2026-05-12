@@ -8,6 +8,7 @@ module Kira
 end
 
 require 'kira/errors'
-require 'kira/v2/client'
-require 'kira/v2/applicant'
 require 'kira/v2/interview'
+require 'kira/v2/applicants'
+require 'kira/v2/webhooks'
+require 'kira/v2/client'

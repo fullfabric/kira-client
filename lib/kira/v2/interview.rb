@@ -1,28 +1,13 @@
 class Kira::V2::Interview
-  include Contracts
-  include Kira::V2::Client
-
-  Contract String, String, String => Any
-  def initialize(interview_id, token, secret)
-    @interview_id, @token, @secret = interview_id, token, secret
+  def initialize(client, id)
+    @client, @id = client, id
   end
 
-  Contract KeywordArgs[
-    endpoint: String,
-    event_subscriptions: ArrayOf[String],
-    active: Optional[Bool]
-  ] => Or[Hash, Bool]
-  def create(endpoint:, event_subscriptions:, active: true)
-    path = "/interviews/#{@interview_id}/webhooks/"
+  def applicants
+    @applicants ||= Kira::V2::Applicants.new(@client, @id)
+  end
 
-    existing = request(:get, path)
-    return true if existing.any? { |webhook| webhook['event_subscriptions'].include?('applicant.interview_completed') }
-
-    request(:post, path, body: {
-      endpoint: endpoint,
-      event_subscriptions: event_subscriptions,
-      active: active,
-      secret: @secret
-    })
+  def webhooks
+    @webhooks ||= Kira::V2::Webhooks.new(@client, @id)
   end
 end
