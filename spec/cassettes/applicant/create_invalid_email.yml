@@ -1,0 +1,56 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://app.kiratalent.com/api/interviews/fqvjnY/applicants/
+    body:
+      encoding: UTF-8
+      string: '{"first_name":"Peter","last_name":"Pan","email":"not-an-email"}'
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Authorization:
+      - Token <KIRA_TOKEN>
+      Accept:
+      - application/vnd.kiratalent.v2+json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Tue, 12 May 2026 12:48:10 GMT
+      Content-Type:
+      - application/vnd.kiratalent.v2+json; charset=utf-8
+      Content-Length:
+      - '42'
+      Connection:
+      - keep-alive
+      Server:
+      - 1.30.0
+      - nginx/1.30.0
+      Vary:
+      - Accept, Accept-Language, Cookie, origin
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Content-Language:
+      - en
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
+    body:
+      encoding: UTF-8
+      string: '{"email":["Enter a valid email address."]}'
+  recorded_at: Tue, 12 May 2026 12:48:10 GMT
+recorded_with: VCR 6.4.0

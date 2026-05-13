@@ -11,4 +11,6 @@ group :development, :test do
   gem 'guard-rspec', '>= 2.8'
   gem 'json_spec'
   gem 'faker'
+  gem 'vcr'
+  gem 'webmock' # VCR adapter dep
 end

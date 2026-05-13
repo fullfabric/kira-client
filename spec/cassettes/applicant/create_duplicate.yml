@@ -1,0 +1,115 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://app.kiratalent.com/api/interviews/fqvjnY/applicants/
+    body:
+      encoding: UTF-8
+      string: '{"first_name":"Peter","last_name":"Pan","email":"peter.pan+fixture-duplicate@example.com"}'
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Authorization:
+      - Token <KIRA_TOKEN>
+      Accept:
+      - application/vnd.kiratalent.v2+json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Tue, 12 May 2026 12:48:09 GMT
+      Content-Type:
+      - application/vnd.kiratalent.v2+json; charset=utf-8
+      Content-Length:
+      - '410'
+      Connection:
+      - keep-alive
+      Server:
+      - 1.30.0
+      - nginx/1.30.0
+      Location:
+      - https://app.kiratalent.com/api/interviews/fqvjnY/applicants/ck6T5T/
+      Vary:
+      - Accept, Accept-Language, Cookie, origin, Accept-Encoding
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Content-Language:
+      - en
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
+      X-Permitted-Cross-Domain-Policies:
+      - none
+    body:
+      encoding: ASCII-8BIT
+      string: '{"uid":"ck6T5T","url":"https://app.kiratalent.com/api/interviews/fqvjnY/applicants/ck6T5T/","first_name":"Peter","last_name":"Pan","full_name":"Peter
+        Pan","email":"peter.pan+fixture-duplicate@example.com","external_id":"","interview":{"uid":"fqvjnY","url":"https://app.kiratalent.com/api/interviews/fqvjnY/","name":"APIv2
+        Test Assessment"},"date_responded":null,"deadline":null,"reviews_url":"https://app.kiratalent.com/api/interviews/fqvjnY/reviews/?applicant_uid=ck6T5T","review_page_url":"https://app.kiratalent.com/review/ck6T5T/","public_review_url":null,"results_page_url":"https://app.kiratalent.com/applicant/ck6T5T/","check_in_page_url":"https://app.kiratalent.com/applicant/tWbtFvnQZL3AjlOJ28GNuX/instructions/","rating":{"value":null,"label":"N/A","name":"not-reviewed"},"average_reviewer_score":null,"custom_fields":{},"embeddable_responses":[],"integrity_summary":null,"responses":[]}'
+  recorded_at: Tue, 12 May 2026 12:48:09 GMT
+- request:
+    method: post
+    uri: https://app.kiratalent.com/api/interviews/fqvjnY/applicants/
+    body:
+      encoding: UTF-8
+      string: '{"first_name":"Peter","last_name":"Pan","email":"peter.pan+fixture-duplicate@example.com"}'
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Authorization:
+      - Token <KIRA_TOKEN>
+      Accept:
+      - application/vnd.kiratalent.v2+json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 409
+      message: Conflict
+    headers:
+      Date:
+      - Tue, 12 May 2026 12:48:10 GMT
+      Content-Type:
+      - application/vnd.kiratalent.v2+json; charset=utf-8
+      Content-Length:
+      - '70'
+      Connection:
+      - keep-alive
+      Server:
+      - 1.30.0
+      - nginx/1.30.0
+      Vary:
+      - Accept, Accept-Language, Cookie, origin
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Content-Language:
+      - en
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
+    body:
+      encoding: UTF-8
+      string: '{"detail":"This email address has already been registered to ck6T5T."}'
+  recorded_at: Tue, 12 May 2026 12:48:10 GMT
+recorded_with: VCR 6.4.0
