@@ -13,5 +13,5 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.0"
 
   s.add_dependency "contracts"
-  s.add_dependency "faraday", "~> 2.0"
+  s.add_dependency "faraday", "~> 2.13"
 end
