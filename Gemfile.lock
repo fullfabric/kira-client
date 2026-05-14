@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kira-client (2.0.0)
+    kira-client (3.0.0)
       contracts
       faraday (~> 2.13)
 
