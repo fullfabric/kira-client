@@ -1,0 +1,32 @@
+---
+# Hand-crafted from a real Kira response (probed against the test interview).
+# Pinned to record: :none in the spec so it cannot be accidentally re-recorded.
+http_interactions:
+- request:
+    method: get
+    uri: https://app.kiratalent.com/api/interviews/fqvjnY/applicants/?email=peter.pan%2Bfixture-001@example.com
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Authorization:
+      - Token <KIRA_TOKEN>
+      Accept:
+      - application/vnd.kiratalent.v2+json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/vnd.kiratalent.v2+json; charset=utf-8
+      Link:
+      - <https://app.kiratalent.com/api/interviews/fqvjnY/applicants/?email=peter.pan%2Bfixture-001@example.com&page=1>; rel="first", <https://app.kiratalent.com/api/interviews/fqvjnY/applicants/?email=peter.pan%2Bfixture-001@example.com&page=1>; rel="last"
+    body:
+      encoding: UTF-8
+      string: '[{"uid":"zIUiHR","url":"https://app.kiratalent.com/api/interviews/fqvjnY/applicants/zIUiHR/","email":"peter.pan+fixture-001@example.com","date_invited":"2026-05-12T12:48:08Z","date_registered":null,"date_responded":null,"external_id":"ext-fixture-001","first_name":"Peter","last_name":"Pan","full_name":"Peter Pan","review_page_url":"https://app.kiratalent.com/review/zIUiHR/","deadline_with_timezone":null,"public_review_url":null,"deadline":null,"check_in_page_url":"https://app.kiratalent.com/applicant/KFQNHnddOfbROcTdAaIFQb/instructions/","custom_fields":{},"profile_photo":null}]'
+    http_version: '1.1'
+  recorded_at: Mon, 25 May 2026 00:00:00 GMT
+recorded_with: VCR 6.0.0

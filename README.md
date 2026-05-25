@@ -38,6 +38,26 @@ applicant['check_in_page_url']   # => "https://app.kiratalent.com/applicant/.../
 applicant['external_id']         # => "your-internal-id"
 ```
 
+### List applicants
+
+```ruby
+# All applicants registered against the interview (single page).
+interview.applicants.list
+# => [{ "uid" => "...", "email" => "...", "check_in_page_url" => "...", ... }, ...]
+
+# Filter to the applicant registered under a specific email (returns a 0- or 1-element array).
+interview.applicants.list(email: 'peter@example.com')
+```
+
+### Fetch a single applicant
+
+```ruby
+applicant = interview.applicants.get('uid-from-kira')
+applicant['check_in_page_url']
+```
+
+Use this when recovering from a `Kira::ApplicantError::Exists` — the error's `parsed['detail']` carries the existing applicant's `uid`.
+
 ### List webhooks
 
 ```ruby

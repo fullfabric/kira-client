@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = "kira-client"
-  s.version     = "3.0.0"
-  s.date        = "2026-05-12"
+  s.version     = "3.1.0"
+  s.date        = "2026-05-25"
   s.summary     = "Kira Client"
   s.description = "Client to interact with the Kira API"
   s.authors     = ["Luis Correa d'Almeida"]

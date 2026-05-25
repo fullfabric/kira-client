@@ -1,3 +1,4 @@
+require 'cgi'
 require 'contracts'
 require 'faraday'
 require 'json'

@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.1.0 — 2026-05-25
+
+### Added
+
+- `Kira::V2::Applicants#list(email: nil)` — fetch the applicants registered against an interview. Pass `email:` to filter to the (single) applicant registered under that address, otherwise returns the first page of all applicants. The email value is URL-encoded; `+` (which Kira parses as a space when unescaped) is handled.
+- `Kira::V2::Applicants#get(uid)` — fetch a single applicant by their Kira `uid`. Returns the same shape as the entries in `#list`, including `check_in_page_url`. Raises `Kira::Error` with status 404 if the uid is unknown.
+
+Both endpoints exist on Kira's v2 API; they were just absent from the gem's surface.
+
 ## 3.0.0 — 2026-05-12
 
 **Breaking change.** The per-resource classes are gone; everything reaches through one client.
