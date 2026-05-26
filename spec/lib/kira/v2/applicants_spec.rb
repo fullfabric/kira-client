@@ -97,4 +97,72 @@ describe Kira::V2::Applicants do
       end
     end
   end
+
+  describe "#list" do
+    context "with an email filter that matches one applicant",
+            vcr: { cassette_name: "applicant/list_by_email_match", record: :none } do
+      it "returns a single-element array carrying check_in_page_url" do
+        results = applicants.list(email: "peter.pan+fixture-001@example.com")
+
+        expect(results.size).to eq(1)
+        expect(results.first["email"]).to eq("peter.pan+fixture-001@example.com")
+        expect(results.first["check_in_page_url"]).to start_with("https://app.kiratalent.com/applicant/")
+      end
+
+      it "sends the email as a URL-encoded query parameter" do
+        applicants.list(email: "peter.pan+fixture-001@example.com")
+
+        # Faraday leaves `@` unescaped in the query (it's a safe character there),
+        # but `+` must be escaped or Kira parses it as a space.
+        expect(WebMock).to have_requested(
+          :get,
+          "#{applicant_url}?email=peter.pan%2Bfixture-001@example.com"
+        )
+      end
+    end
+
+    context "with an email filter that matches nothing",
+            vcr: { cassette_name: "applicant/list_by_email_empty", record: :none } do
+      it "returns an empty array" do
+        expect(applicants.list(email: "nobody@example.com")).to eq([])
+      end
+    end
+
+    context "without an email filter",
+            vcr: { cassette_name: "applicant/list_all", record: :none } do
+      it "GETs the unfiltered applicants index" do
+        applicants.list
+
+        expect(WebMock).to have_requested(:get, applicant_url)
+      end
+    end
+  end
+
+  describe "#get" do
+    context "for an existing uid",
+            vcr: { cassette_name: "applicant/get_success", record: :none } do
+      it "returns the applicant hash with check_in_page_url" do
+        applicant = applicants.get("zIUiHR")
+
+        expect(applicant["uid"]).to eq("zIUiHR")
+        expect(applicant["email"]).to eq("peter.pan+fixture-001@example.com")
+        expect(applicant["check_in_page_url"]).to start_with("https://app.kiratalent.com/applicant/")
+      end
+
+      it "GETs the per-applicant URL" do
+        applicants.get("zIUiHR")
+
+        expect(WebMock).to have_requested(:get, "#{applicant_url}zIUiHR/")
+      end
+    end
+
+    context "for an unknown uid",
+            vcr: { cassette_name: "applicant/get_not_found", record: :none } do
+      it "raises Kira::Error with status 404" do
+        expect { applicants.get("missing") }.to raise_error(Kira::Error) { |e|
+          expect(e.status).to eq(404)
+        }
+      end
+    end
+  end
 end

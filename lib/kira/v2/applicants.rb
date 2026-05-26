@@ -17,4 +17,19 @@ class Kira::V2::Applicants
 
     @client.request(:post, "/interviews/#{@interview_id}/applicants/", body: body)
   end
+
+  Contract KeywordArgs[
+    email: Optional[String]
+  ] => ArrayOf[Hash]
+  def list(email: nil)
+    path = "/interviews/#{@interview_id}/applicants/"
+    path += "?email=#{CGI.escape(email)}" if email
+
+    @client.request(:get, path)
+  end
+
+  Contract String => Hash
+  def get(uid)
+    @client.request(:get, "/interviews/#{@interview_id}/applicants/#{uid}/")
+  end
 end
