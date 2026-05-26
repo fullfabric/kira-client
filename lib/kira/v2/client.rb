@@ -61,9 +61,19 @@ class Kira::V2::Client
     klass.new(status: res.status, body: res.body, parsed: parsed)
   end
 
-  def _applicant_already_exists?(res, parsed)
-    res.status == 409 &&
-      parsed.is_a?(Hash) &&
-      parsed["detail"].to_s.include?("already been registered")
+  # Kira signals "this email is already registered against the interview" with
+  # a few different response shapes — historically 409 with `{"detail": "..."}`,
+  # currently 400 with a bare JSON string. The wording of the message is the
+  # stable bit; key off that regardless of status or body shape.
+  ALREADY_REGISTERED_RE = /already been registered/.freeze
+
+  def _applicant_already_exists?(_res, parsed)
+    detail = case parsed
+             when Hash   then parsed["detail"].to_s
+             when String then parsed
+             else            ""
+             end
+
+    ALREADY_REGISTERED_RE.match?(detail)
   end
 end

@@ -71,6 +71,22 @@ describe Kira::V2::Applicants do
       end
     end
 
+    # Kira's API has been observed returning the duplicate-registration error
+    # as 400 with a bare JSON string body (instead of 409 + Hash). Pinned to
+    # record: :none so the cassette stays stable.
+    context "when Kira returns the duplicate error as 400 + bare string",
+            vcr: { cassette_name: "applicant/create_duplicate_400_string", record: :none } do
+      it "still raises Kira::ApplicantError::Exists" do
+        expect {
+          applicants.create(first_name: "Peter", last_name: "Pan", email: "peter@example.com")
+        }.to raise_error(Kira::ApplicantError::Exists) { |e|
+          expect(e.status).to eq(400)
+          expect(e.parsed).to be_a(String)
+          expect(e.parsed).to include("already been registered")
+        }
+      end
+    end
+
     context "when the email is invalid", vcr: { cassette_name: "applicant/create_invalid_email" } do
       it "raises Kira::Error with the HTTP status and parsed body" do
         expect {

@@ -1,0 +1,31 @@
+---
+# Hand-crafted from a real Kira response (observed 2026-05-26). The duplicate-
+# registration error now comes back as 400 with a bare JSON string body instead
+# of the older 409 + {"detail": "..."} shape. Pinned to record: :none.
+http_interactions:
+- request:
+    method: post
+    uri: https://app.kiratalent.com/api/interviews/fqvjnY/applicants/
+    body:
+      encoding: UTF-8
+      string: '{"first_name":"Peter","last_name":"Pan","email":"peter@example.com"}'
+    headers:
+      Authorization:
+      - Token <KIRA_TOKEN>
+      Accept:
+      - application/vnd.kiratalent.v2+json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/vnd.kiratalent.v2+json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '"This email address has already been registered to tF21eW."'
+    http_version: '1.1'
+  recorded_at: Tue, 26 May 2026 09:52:16 GMT
+recorded_with: VCR 6.0.0
