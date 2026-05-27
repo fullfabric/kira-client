@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.1 — 2026-05-26
+
+### Fixed
+
+- `Kira::ApplicantError::Exists` was only raised when Kira returned `409` with a `{"detail": "..."}` Hash body. Kira's API has been observed returning the same condition as `400` with a bare JSON string body (`"This email address has already been registered to <uid>."`), and possibly other shapes — neither passed the old classifier, so the duplicate-registration recovery path silently broke. The check is now keyed off the message wording across status codes and body shapes.
+
 ## 3.1.0 — 2026-05-25
 
 ### Added
